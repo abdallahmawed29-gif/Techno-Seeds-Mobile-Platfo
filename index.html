@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تكنو سيدز | Techno Seeds</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>تكنو سيدز | Techno Seeds</h1>
+</header>
+
+<div class="container">
+    <h2>مقدمة</h2>
+    <p>
+        تأسست شركة تكنوسيدز عام 1993 خلال برنامج بحثي خاص، ثم تم إنشاء الكيان القانوني كشركة مصرية 100٪ عام 2006.
+        تعمل الشركة في مجال إنتاج تقاوي البذور والحاصلات الزراعية، وخاصة الذرة.
+        رؤيتنا: أن تكون تكنوسيدز شركة رائدة في إنتاج التقاوي والبذور والحاصلات الزراعية داخل مصر وخارجها.
+        هدفنا الرئيسي: تلبية جميع احتياجات السوق محلياً وعالمياً، وتقديم الحلول التي تفيد المزارعين.
+    </p>
+
+    <h2>اختر نوع المحصول</h2>
+    <select id="cropType">
+        <option value="">اختر نوع المحصول</option>
+        <option value="cornHybrid">ذرة شامية</option>
+        <option value="sorghumHybrid">ذرة رفيعة</option>
+        <option value="vegetables">خضروات</option>
+    </select>
+
+    <div id="cropSelectContainer" style="display:none;">
+        <h2>اختر الصنف</h2>
+        <select id="cropSelect">
+            <option value="">اختر الصنف</option>
+        </select>
+    </div>
+
+    <div class="features" id="features" style="display:none;">
+        <h2>مميزات الصنف</h2>
+        <div id="featuresContent"></div>
+    </div>
+</div>
+
+<footer>
+    <p>📍 العنوان: Beverly Hills, Polygon business park, Building No.8-F2, El Sheikh Zayed, Giza, Egypt</p>
+    <p>📞 201033680070+ - 20263304212+</p>
+    <p>🌐 www.technoseeds-eg.com</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
