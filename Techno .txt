@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تطبيق تكنوسيدز</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 10px; background: #f5f5f5; }
+  h1, h2 { color: #2a5d84; }
+  select, button { padding: 10px; margin: 10px 0; width: 100%; }
+  .features { background: #fff; padding: 15px; border-radius: 8px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h1>شركة تكنوسيدز</h1>
+<p>تأسست شركة تكنوسيدز عام 1993 … (المقدمة كاملة)</p>
+
+<h2>تمهيد</h2>
+<p>هنا توضيح الهدف من التطبيق وكيفية استخدامه.</p>
+
+<h2>اختيار المحصول</h2>
+<select id="cropSelect">
+  <option value="">-- اختر المحصول --</option>
+  <option value="shamia">ذرة شامية</option>
+  <option value="rafi3a">ذرة رفيعة</option>
+  <option value="wheat">قمح</option>
+  <option value="vegetables">خضر وأعلاف</option>
+</select>
+
+<h2>اختيار الصنف</h2>
+<select id="varietySelect">
+  <option value="">-- اختر الصنف --</option>
+</select>
+
+<div class="features" id="featuresDisplay">
+  هنا ستظهر كل مميزات الصنف.
+</div>
+
+<p><strong>شركة تكنوسيدز</strong><br>
+www.technoseeds-eg.com <br>
++201033680070 - +20263304212</p>
+
+<script>
+const varieties = {
+  shamia: {
+    "YAQOOT 5": `هجين ذرة شامية فردي أحمر… (كل المميزات كما أرسلت)`,
+    "GOLD 21": `هجين ذرة شامية فردي أصفر… (كل المميزات كما أرسلت)`
+  },
+  rafi3a: {
+    "MUBARAK": `هجين سورجم قوي عالي الإنتاجية…`,
+    "FEROAN": `هجين سورجم قوي طويل…`,
+    "EKHNATON": `هجين سورجم قوي بفنديل مميز…`
+  },
+  wheat: {
+    "MASR 4": `صنف قمح مصر 4…`,
+    "SUDS 14": `صنف قمح سدس 14…`,
+    "GIZA 171": `صنف قمح جيزة 171…`,
+    "BENI SUEF 5": `صنف بني سويف 5…`,
+    "GEMEZAH 11": `صنف جميزة 11…`,
+    "SAKHA 95": `صنف سخا 95…`
+  },
+  vegetables: {
+    "BERSEEM BALADY": `برسيم بلدي…`,
+    "PEPPER 100": `فلفل 100…`,
+    "KHIAR FURAT": `خيار فرات…`,
+    "KHIAR BARAKA": `خيار بركة…`,
+    "MANGO MELON": `شمام مانجو…`,
+    "SHABH MELON": `شمام شبح…`
+  }
+};
+
+document.getElementById('cropSelect').addEventListener('change', function() {
+  const crop = this.value;
+  const varietySelect = document.getElementById('varietySelect');
+  varietySelect.innerHTML = '<option value="">-- اختر الصنف --</option>';
+  if(varieties[crop]) {
+    Object.keys(varieties[crop]).forEach(v => {
+      const option = document.createElement('option');
+      option.value = v;
+      option.textContent = v;
+      varietySelect.appendChild(option);
+    });
+  }
+  document.getElementById('featuresDisplay').innerHTML = '';
+});
+
+document.getElementById('varietySelect').addEventListener('change', function() {
+  const crop = document.getElementById('cropSelect').value;
+  const variety = this.value;
+  if(varieties[crop] && varieties[crop][variety]) {
+    document.getElementById('featuresDisplay').innerHTML = varieties[crop][variety];
+  } else {
+    document.getElementById('featuresDisplay').innerHTML = '';
+  }
+});
+</script>
+
+</body>
+</html>
