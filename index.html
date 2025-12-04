@@ -1,53 +1,94 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تكنو سيدز | Techno Seeds</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تطبيق تكنوسيدز - دليل الأصناف</title>
+<style>
+  body{font-family: Arial, 'Noto Naskh Arabic', Tahoma; direction: rtl; padding:20px; background:#f7f7f7}
+  .card{background:white; padding:18px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.08); max-width:900px; margin:auto}
+  h1{margin-top:0}
+  select, button{padding:10px; font-size:16px; margin:6px 0; width:100%}
+  pre{white-space:pre-wrap; background:#fafafa; padding:12px; border-radius:6px; overflow:auto}
+  .row{display:flex; gap:10px; flex-wrap:wrap}
+  @media(min-width:720px){ .row > * {flex:1} }
+</style>
 </head>
 <body>
-
-<header>
-    <h1>تكنو سيدز | Techno Seeds</h1>
-</header>
-
-<div class="container">
-    <h2>مقدمة</h2>
-    <p>
-        تأسست شركة تكنوسيدز عام 1993 خلال برنامج بحثي خاص، ثم تم إنشاء الكيان القانوني كشركة مصرية 100٪ عام 2006.
-        تعمل الشركة في مجال إنتاج تقاوي البذور والحاصلات الزراعية، وخاصة الذرة.
-        رؤيتنا: أن تكون تكنوسيدز شركة رائدة في إنتاج التقاوي والبذور والحاصلات الزراعية داخل مصر وخارجها.
-        هدفنا الرئيسي: تلبية جميع احتياجات السوق محلياً وعالمياً، وتقديم الحلول التي تفيد المزارعين.
-    </p>
-
-    <h2>اختر نوع المحصول</h2>
-    <select id="cropType">
-        <option value="">اختر نوع المحصول</option>
-        <option value="cornHybrid">ذرة شامية</option>
-        <option value="sorghumHybrid">ذرة رفيعة</option>
-        <option value="vegetables">خضروات</option>
-    </select>
-
-    <div id="cropSelectContainer" style="display:none;">
-        <h2>اختر الصنف</h2>
-        <select id="cropSelect">
-            <option value="">اختر الصنف</option>
-        </select>
+<div class="card">
+  <h1>دليل أصناف تكنوسيدز</h1>
+  <p><strong>شركة تكنوسيدز</strong> — تأسست شركة تكنوسيدز في عام ١٩٩٣... (مقتطف من المقدمة التي أرسلتها).  شركة مصرية ١٠٠٪ متخصصة في إنتاج التقاوي والحاصلات الزراعية، وتملك برامج بحثية واسعة في الذرة الشامية والرفيعة والخضر والقمح.</p>
+  <div class="row">
+    <div>
+      <label>اختر المحصول</label>
+      <select id="cropSelect"></select>
+      <label>اختر الصنف</label>
+      <select id="varietySelect"></select>
+      <button id="showBtn">عرض مميزات الصنف بالكامل</button>
     </div>
-
-    <div class="features" id="features" style="display:none;">
-        <h2>مميزات الصنف</h2>
-        <div id="featuresContent"></div>
+    <div>
+      <label>معلومات الصنف</label>
+      <pre id="detailsArea">اختر صنفاً لعرض مميزاته هنا...</pre>
     </div>
+  </div>
+  <hr>
+  <div>
+    <h3>معلومات الشركة</h3>
+    <p>العنوان: Beverly Hills, Polygon business park, Building No.8-F2, El Sheikh Zayed, Giza, Egypt</p>
+    <p>الهاتف: +201033680070, +20263304212</p>
+    <p>الموقع: www.technoseeds-eg.com</p>
+    <p>الرئيس: د / ماجد حمودة — المدير التنفيذي: م / محمود حمودة</p>
+  </div>
 </div>
 
-<footer>
-    <p>📍 العنوان: Beverly Hills, Polygon business park, Building No.8-F2, El Sheikh Zayed, Giza, Egypt</p>
-    <p>📞 201033680070+ - 20263304212+</p>
-    <p>🌐 www.technoseeds-eg.com</p>
-</footer>
+<script>
+async function loadData(){
+  const resp = await fetch('data.json');
+  const data = await resp.json();
+  return data;
+}
 
-<script src="script.js"></script>
+function populateCrops(data){
+  const cropSelect = document.getElementById('cropSelect');
+  cropSelect.innerHTML='';
+  Object.keys(data.crops).forEach(c => {
+    const opt = document.createElement('option'); opt.value=c; opt.textContent=c;
+    cropSelect.appendChild(opt);
+  });
+}
+
+function populateVarieties(data, crop){
+  const varSel = document.getElementById('varietySelect');
+  varSel.innerHTML='';
+  const varieties = data.crops[crop];
+  Object.keys(varieties).forEach(v => {
+    const opt = document.createElement('option'); opt.value=v; opt.textContent=varieties[v].name_ar || v;
+    varSel.appendChild(opt);
+  });
+}
+
+document.getElementById('showBtn').addEventListener('click', async ()=>{
+  const data = window.__tsData;
+  const crop = document.getElementById('cropSelect').value;
+  const varKey = document.getElementById('varietySelect').value;
+  const info = data.crops[crop][varKey];
+  const area = document.getElementById('detailsArea');
+  let text = '';
+  if(info.name_ar) text += info.name_ar + '\n\n';
+  if(info.details) text += info.details + '\n\n';
+  if(info.anthocyanin_section) text += info.anthocyanin_section + '\n\n';
+  if(info.note) text += info.note + '\n\n';
+  if(!text) text = 'لا توجد تفاصيل كاملة للصنف (الرجاء مراجعة data.json)';
+  area.textContent = text;
+});
+
+(async ()=>{
+  const data = await loadData();
+  window.__tsData = data;
+  populateCrops(data);
+  populateVarieties(data, Object.keys(data.crops)[0]);
+  document.getElementById('cropSelect').addEventListener('change', (e)=> populateVarieties(window.__tsData, e.target.value));
+})();
+</script>
 </body>
 </html>
